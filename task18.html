@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task 18 </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    form {
+      max-width: 500px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    .success {
+      color: green;
+      font-size: 1em;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h2>  Validation Form</h2>
+  <form id="myForm" enctype="multipart/form-data">
+    <label>Name:</label>
+    <input type="text" id="name" required>
+
+    <label>Email:</label>
+    <input type="email" id="email" required>
+
+    <label>Contact:</label>
+    <input type="text" id="contact" required>
+
+    <label>Age:</label>
+    <input type="number" id="age" required min="1">
+
+    <label>Designation:</label>
+    <input type="text" id="designation" required>
+
+    <label>Date of Birth:</label>
+    <input type="date" id="dob" required>
+
+    <label>Upload Files (multiple):</label>
+    <input type="file" id="files" multiple>
+
+    <button type="submit">Submit</button>
+
+    <div id="message"></div>
+  </form>
+
+  <script>
+    document.getElementById("myForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // Get form values
+      let name = document.getElementById("name").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let contact = document.getElementById("contact").value.trim();
+      let age = document.getElementById("age").value.trim();
+      let designation = document.getElementById("designation").value.trim();
+      let dob = document.getElementById("dob").value;
+      let files = document.getElementById("files").files;
+
+      let message = "";
+
+      // Name validation
+      if (name === "") {
+        message += "Name is required.<br>";
+      }
+
+      // Email validation
+      let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!email.match(emailPattern)) {
+        message += "Please enter a valid email.<br>";
+      }
+
+      // Contact validation (should be 10 digits)
+      let contactPattern = /^[0-9]{10}$/;
+      if (!contact.match(contactPattern)) {
+        message += "Contact must be 10 digits.<br>";
+      }
+
+      // Age validation
+      if (age === "" || parseInt(age) <= 0) {
+        message += "Please enter a valid age.<br>";
+      }
+
+      // Designation validation
+      if (designation === "") {
+        message += "Designation is required.<br>";
+      }
+
+      // DOB validation
+      if (dob === "") {
+        message += "Date of Birth is required.<br>";
+      }
+
+      // Files validation
+      if (files.length === 0) {
+        message += "Please select at least one file.<br>";
+      }
+
+      const msgDiv = document.getElementById("message");
+      if (message !== "") {
+        msgDiv.innerHTML = `<div class="error">${message}</div>`;
+      } else {
+        msgDiv.innerHTML = `<div class="success">Form submitted successfully!</div>`;
+        // Optionally reset form
+        this.reset();
+      }
+    });
+  </script>
+</body>
+</html>
